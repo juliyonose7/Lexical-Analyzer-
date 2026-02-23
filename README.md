@@ -1,107 +1,40 @@
-# Práctica: especificaciones léxicas con JFlex
+# Analizador léxico con JFlex
 
-Este proyecto incluye una solución base para la actividad de analizadores léxicos:
+Proyecto académico para la asignatura de Procesadores de Lenguajes.
 
-- Especificación JFlex: `Lexer.flex`
-- Tipos de token: `src/TokenType.java`
-- Estructura de token: `src/Token.java`
-- Programa de prueba: `src/Main.java`
-- Entrada de ejemplo: `ejemplo.txt`
+## Objetivo
 
-## 1) Requisitos
+Construir un analizador léxico capaz de reconocer tokens comunes de un lenguaje imperativo, devolviendo para cada token su tipo, lexema y posición (línea y columna).
 
-- JDK instalado y agregado al `PATH`
-- JFlex (por ejemplo `jflex-full-1.9.1.jar`)
+## Estructura del proyecto
 
-## 2) Generar el analizador léxico
+- `Lexer.flex`: especificación léxica en JFlex.
+- `src/TokenType.java`: catálogo de tipos de token.
+- `src/Token.java`: modelo de token.
+- `src/Main.java`: programa de prueba del analizador.
+- `ejemplo.txt`: archivo de entrada de ejemplo.
 
-En PowerShell, ubicado en la carpeta del proyecto:
+## Requisitos
 
-```powershell
-java -jar .\jflex-full-1.9.1.jar -d .\src .\Lexer.flex
-```
+- JDK 17 o superior.
+- JFlex 1.9.x.
 
-Esto genera `src/Lexer.java`.
+## Tokens reconocidos
 
-## 3) Compilar
+- Palabras reservadas: `if`, `else`, `while`, `for`, `return`, `int`, `float`, `double`, `boolean`, `String`, `char`, `void`, `true`, `false`.
+- Identificadores.
+- Literales: enteros, reales y cadenas.
+- Operadores: aritméticos, relacionales, lógicos e incrementales.
+- Delimitadores: `()`, `{}`, `[]`, `,`, `;`, `.`.
+- Comentarios de línea (`//`) y de bloque (`/* ... */`).
+- Errores léxicos (`ERROR`) y fin de archivo (`EOF`).
 
-```powershell
-javac -d .\out .\src\*.java
-```
+## Flujo técnico
 
-## 4) Ejecutar con archivo de prueba
+1. JFlex procesa `Lexer.flex` y genera la clase `Lexer`.
+2. `Main` invoca el escáner y obtiene tokens con `nextToken()`.
+3. Cada token se imprime con su tipo, lexema, línea y columna.
 
-```powershell
-java -cp .\out Main .\ejemplo.txt
-```
+## Alcance actual
 
-## 5) Qué reconoce este lexer
-
-- Palabras reservadas: `if, else, while, for, return, int, float, double, boolean, String, char, void, true, false`
-- Identificadores
-- Literales: enteros, reales y cadenas
-- Operadores aritméticos y lógicos
-- Delimitadores: `(){}[];, .`
-- Comentarios `//...` y `/* ... */`
-- Manejo de error léxico (`TokenType.ERROR`)
-
-## 6) Personalización rápida
-
-Si tu profesor pide un conjunto específico de tokens, edita las reglas dentro de `Lexer.flex` y agrega/elimina elementos en `TokenType.java`.
-
-## 7) Versionado detallado en GitHub
-
-Este repositorio ya incluye una base de versionado profesional:
-
-- Estrategia de ramas y releases: `VERSIONING.md`
-- Historial de cambios: `CHANGELOG.md`
-- Guía de colaboración: `CONTRIBUTING.md`
-- Plantillas para PR e issues: `.github/pull_request_template.md` y `.github/ISSUE_TEMPLATE/*`
-
-### Convención recomendada
-
-- Commits con Conventional Commits (`feat`, `fix`, `docs`, `ci`, etc.).
-- Versionado semántico (`MAJOR.MINOR.PATCH`).
-- Releases usando tags tipo `vX.Y.Z`.
-
-## 8) CI/CD con GitHub Actions
-
-Se configuraron dos pipelines:
-
-- CI: `.github/workflows/ci.yml`
-	- Ejecuta en `push` y `pull_request`.
-	- Descarga JFlex, genera `Lexer.java`, compila y hace prueba de ejecución.
-
-- CD: `.github/workflows/cd-release.yml`
-	- Ejecuta al hacer push de un tag `v*.*.*`.
-	- Compila, empaqueta artefacto `.tar.gz` y crea un GitHub Release.
-
-## 9) Publicar en GitHub
-
-1. Configura tu identidad Git (si aún no está):
-
-```powershell
-git config --global user.name "Tu Nombre"
-git config --global user.email "tu_correo@ejemplo.com"
-```
-
-2. Crea commit inicial:
-
-```powershell
-git add .
-git commit -m "feat(lexer): initial project with versioning and ci-cd"
-```
-
-3. Conecta tu repositorio remoto y sube `main`:
-
-```powershell
-git remote add origin https://github.com/<usuario>/<repositorio>.git
-git push -u origin main
-```
-
-4. Crea una release (dispara CD):
-
-```powershell
-git tag v0.1.0
-git push origin v0.1.0
-```
+La versión actual implementa un primer baseline funcional del analizador léxico, listo para extender reglas, añadir nuevos tokens y ajustar acciones semánticas según la guía del curso.
