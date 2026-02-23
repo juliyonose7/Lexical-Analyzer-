@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a problem in lexer rules, build or workflows.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this issue.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      placeholder: Short description of the bug
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Generate lexer with JFlex
+        2. Compile Java files
+        3. Run Main with input
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version/tag
+      placeholder: v0.1.0

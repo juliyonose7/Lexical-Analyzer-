@@ -1,0 +1,36 @@
+name: Feature request
+description: Propose new tokens/rules or workflow improvements.
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: input
+    id: problem
+    attributes:
+      label: Problem statement
+      placeholder: What problem are you trying to solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      placeholder: Describe the token/rule/workflow change
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: SemVer impact
+      options:
+        - patch
+        - minor
+        - major
+    validations:
+      required: true
