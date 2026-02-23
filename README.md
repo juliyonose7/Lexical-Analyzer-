@@ -35,6 +35,13 @@ Construir un analizador léxico capaz de reconocer tokens comunes de un lenguaje
 2. `Main` invoca el escáner y obtiene tokens con `nextToken()`.
 3. Cada token se imprime con su tipo, lexema, línea y columna.
 
+## Interfaz gráfica
+
+El proyecto incluye una GUI interactiva en `src/LexerGUI.java` con tema azul/blanco.
+
+- Si ejecutas `Main` sin argumentos, se abre la interfaz gráfica.
+- Si ejecutas `Main` con ruta de archivo, se mantiene el modo consola.
+
 ## Alcance actual
 
 La versión actual implementa un primer baseline funcional del analizador léxico, listo para extender reglas, añadir nuevos tokens y ajustar acciones semánticas según la guía del curso.
