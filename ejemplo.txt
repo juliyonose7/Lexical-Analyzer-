@@ -1,0 +1,11 @@
+int contador = 10;
+float precio = 25.99;
+String mensaje = "Hola mundo";
+
+while (contador > 0) {
+    contador--;
+    if (contador == 5) {
+        // Comentario de prueba
+        precio = precio + 1.5;
+    }
+}
