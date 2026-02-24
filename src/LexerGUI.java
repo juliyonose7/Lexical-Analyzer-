@@ -29,11 +29,23 @@ import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Interfaz gráfica para ejecutar análisis léxico de forma interactiva.
+ *
+ * <p>La vista está dividida en dos áreas principales:
+ * <ul>
+ *   <li>Editor de entrada (fuente a analizar).</li>
+ *   <li>Tabla de salida (stream de tokens generado por {@link Lexer}).</li>
+ * </ul>
+ */
 public class LexerGUI extends JFrame {
     private final JTextArea inputArea;
     private final JLabel statusLabel;
     private final DefaultTableModel tableModel;
 
+    /**
+     * Construye y configura todos los componentes visuales de la ventana.
+     */
     public LexerGUI() {
         setTitle("Analizador Léxico - Interfaz Aero Azul/Blanco");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -123,6 +135,12 @@ public class LexerGUI extends JFrame {
         content.add(footer, BorderLayout.SOUTH);
     }
 
+    /**
+     * Ejecuta el análisis léxico sobre el contenido actual del editor.
+     *
+     * <p>El recorrido termina en {@link TokenType#EOF} o {@link TokenType#ERROR}.
+     * El resultado se materializa fila a fila en la tabla de salida.
+     */
     private void analyzeInput() {
         tableModel.setRowCount(0);
         int total = 0;
@@ -155,6 +173,11 @@ public class LexerGUI extends JFrame {
         }
     }
 
+    /**
+     * Permite cargar un archivo de texto local al editor de entrada.
+     *
+     * <p>La lectura se fuerza en UTF-8 para evitar ambigüedad de codificación.
+     */
     private void openTxtFile() {
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Selecciona un archivo .txt");
@@ -180,6 +203,9 @@ public class LexerGUI extends JFrame {
         }
     }
 
+    /**
+     * Inicializa el Look & Feel nativo e inicia la GUI en el EDT de Swing.
+     */
     public static void launch() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -192,7 +218,13 @@ public class LexerGUI extends JFrame {
         });
     }
 
+    /**
+     * Panel de cabecera con renderizado custom (gradiente + borde redondeado).
+     */
     private static class AeroHeaderPanel extends JPanel {
+        /**
+         * Renderiza la decoración visual de la cabecera.
+         */
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
