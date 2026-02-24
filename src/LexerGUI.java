@@ -2,15 +2,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 public class LexerGUI extends JFrame {
@@ -92,13 +98,26 @@ public class LexerGUI extends JFrame {
         analyzeButton.setPreferredSize(new Dimension(130, 36));
         analyzeButton.addActionListener(e -> analyzeInput());
 
+        JButton openFileButton = new JButton("Abrir archivo");
+        openFileButton.setFocusPainted(false);
+        openFileButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        openFileButton.setBackground(new Color(96, 166, 235));
+        openFileButton.setForeground(Color.WHITE);
+        openFileButton.setPreferredSize(new Dimension(150, 36));
+        openFileButton.addActionListener(e -> openTxtFile());
+
         statusLabel = new JLabel("Listo");
         statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         statusLabel.setForeground(new Color(25, 86, 155));
 
         JPanel footer = new JPanel(new BorderLayout(10, 0));
         footer.setOpaque(false);
-        footer.add(analyzeButton, BorderLayout.WEST);
+        JPanel actionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
+        actionsPanel.setOpaque(false);
+        actionsPanel.add(openFileButton);
+        actionsPanel.add(analyzeButton);
+
+        footer.add(actionsPanel, BorderLayout.WEST);
         footer.add(statusLabel, BorderLayout.CENTER);
 
         content.add(footer, BorderLayout.SOUTH);
@@ -132,6 +151,31 @@ public class LexerGUI extends JFrame {
             }
         } catch (IOException ex) {
             statusLabel.setText("Error de lectura: " + ex.getMessage());
+            statusLabel.setForeground(new Color(176, 24, 24));
+        }
+    }
+
+    private void openTxtFile() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Selecciona un archivo .txt");
+        chooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt"));
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        int result = chooser.showOpenDialog(this);
+        if (result != JFileChooser.APPROVE_OPTION) {
+            statusLabel.setText("Selección de archivo cancelada.");
+            statusLabel.setForeground(new Color(25, 86, 155));
+            return;
+        }
+
+        File selectedFile = chooser.getSelectedFile();
+        try {
+            String content = Files.readString(selectedFile.toPath(), StandardCharsets.UTF_8);
+            inputArea.setText(content);
+            statusLabel.setText("Archivo cargado: " + selectedFile.getName());
+            statusLabel.setForeground(new Color(25, 86, 155));
+        } catch (IOException ex) {
+            statusLabel.setText("No se pudo abrir el archivo: " + ex.getMessage());
             statusLabel.setForeground(new Color(176, 24, 24));
         }
     }
