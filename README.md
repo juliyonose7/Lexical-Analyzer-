@@ -1,4 +1,4 @@
-# Analizador léxico con JFlex
+# Lexical Analyzer with JFlex
 
 ![Java](https://img.shields.io/badge/Java-17%2B-007396?logo=openjdk&logoColor=white)
 ![JFlex](https://img.shields.io/badge/JFlex-1.9.1-ff6f00)
@@ -7,103 +7,103 @@
 ![CD](https://img.shields.io/github/actions/workflow/status/juliyonose7/New-folder--2-/cd-release.yml?label=CD%20Release&logo=githubactions)
 ![License](https://img.shields.io/badge/License-Academic-8e24aa)
 
-Proyecto académico de Procesadores de Lenguajes para construir un escáner léxico en Java con JFlex, salida de tokens estructurada y modo interactivo (GUI).
+Academic project for the Compiler Construction course to build a Java lexical scanner with JFlex, structured token output, and an interactive GUI mode.
 
-## Objetivo
+## Goal
 
-Reconocer tokens de un lenguaje imperativo y devolver, por cada unidad léxica, su:
+Recognize tokens from an imperative language and return, for each lexical unit, its:
 
-- tipo (`TokenType`)
-- lexema
-- línea
-- columna
+- type (`TokenType`)
+- lexeme
+- line
+- column
 
-## Características
+## Features
 
-- Especificación léxica en `Lexer.flex`.
-- Generación automática de `Lexer.java` con JFlex.
-- Modelo de token inmutable (`Token`) con posición 1-based.
-- Modo consola para análisis por archivo.
-- GUI interactiva (`LexerGUI`) con:
-	- editor de entrada,
-	- tabla de tokens,
-	- botón de análisis,
-	- carga de archivos `.txt`.
+- Lexical specification in `Lexer.flex`.
+- Automatic generation of `Lexer.java` with JFlex.
+- Immutable token model (`Token`) with 1-based position tracking.
+- Console mode for file-based analysis.
+- Interactive GUI (`LexerGUI`) with:
+	- source input editor,
+	- token table,
+	- analyze button,
+	- `.txt` file loader.
 
-## Estructura del proyecto
+## Project Structure
 
-- `Lexer.flex`: reglas léxicas y estados.
-- `src/Lexer.java`: lexer generado.
-- `src/TokenType.java`: catálogo de tipos de token.
-- `src/Token.java`: DTO de salida léxica.
-- `src/Main.java`: entrypoint (GUI o consola).
-- `src/LexerGUI.java`: interfaz gráfica Swing.
-- `ejemplo.txt`: entrada de prueba.
+- `Lexer.flex`: lexical rules and states.
+- `src/Lexer.java`: generated lexer.
+- `src/TokenType.java`: token type catalog.
+- `src/Token.java`: lexical output DTO.
+- `src/Main.java`: entry point (GUI or console).
+- `src/LexerGUI.java`: Swing graphical interface.
+- `ejemplo.txt`: sample input file.
 
-## Requisitos
+## Requirements
 
-- JDK 17+ (CI usa JDK 21).
+- JDK 17+ (CI uses JDK 21).
 - JFlex 1.9.1.
-- `java-cup-runtime` (requerido por JFlex en ejecución CLI/CI).
+- `java-cup-runtime` (required by JFlex for CLI/CI execution).
 
-## Tokens reconocidos
+## Recognized Tokens
 
-- Palabras reservadas: `if`, `else`, `while`, `for`, `return`, `int`, `float`, `double`, `boolean`, `String`, `char`, `void`, `true`, `false`.
-- Identificadores.
-- Literales: enteros, reales y cadenas.
-- Operadores: aritméticos, relacionales, lógicos e incrementales.
-- Delimitadores: `()`, `{}`, `[]`, `,`, `;`, `.`.
-- Comentarios de línea (`//`) y bloque (`/* ... */`).
-- Tokens de control: `ERROR`, `EOF`.
+- Reserved keywords: `if`, `else`, `while`, `for`, `return`, `int`, `float`, `double`, `boolean`, `String`, `char`, `void`, `true`, `false`.
+- Identifiers.
+- Literals: integers, reals, and strings.
+- Operators: arithmetic, relational, logical, and incremental.
+- Delimiters: `()`, `{}`, `[]`, `,`, `;`, `.`.
+- Line (`//`) and block (`/* ... */`) comments.
+- Control tokens: `ERROR`, `EOF`.
 
-## Ejecución local
+## Local Execution
 
-### 1) Generar lexer (opcional si `src/Lexer.java` ya existe)
+### 1) Generate Lexer (optional if `src/Lexer.java` already exists)
 
-Descarga dependencias:
+Download dependencies:
 
 - `https://repo1.maven.org/maven2/de/jflex/jflex/1.9.1/jflex-1.9.1.jar`
 - `https://repo1.maven.org/maven2/com/github/vbmacher/java-cup-runtime/11b-20160615/java-cup-runtime-11b-20160615.jar`
 
-Generación:
+Generation:
 
 - Linux/macOS:
 	- `java -cp "jflex.jar:java-cup-runtime.jar" jflex.Main -d ./src ./Lexer.flex`
 - Windows (PowerShell/cmd):
 	- `java -cp "jflex.jar;java-cup-runtime.jar" jflex.Main -d ./src ./Lexer.flex`
 
-### 2) Compilar
+### 2) Compile
 
 - `javac -d ./out ./src/*.java`
 
-### 3) Ejecutar
+### 3) Run
 
-- Modo GUI:
+- GUI mode:
 	- `java -cp ./out Main`
-- Modo consola (archivo):
+- Console mode (file input):
 	- `java -cp ./out Main ./ejemplo.txt`
 
-## Flujo técnico
+## Technical Flow
 
-1. JFlex transforma `Lexer.flex` en `src/Lexer.java`.
-2. `Main` crea una instancia de `Lexer` sobre un `Reader`.
-3. Se consume `nextToken()` hasta `EOF` o `ERROR`.
-4. La salida se presenta en consola o en la tabla de la GUI.
+1. JFlex transforms `Lexer.flex` into `src/Lexer.java`.
+2. `Main` creates a `Lexer` instance over a `Reader`.
+3. `nextToken()` is consumed until `EOF` or `ERROR`.
+4. Output is rendered in the console or in the GUI token table.
 
 ## CI/CD
 
-El repositorio incluye workflows en GitHub Actions:
+This repository includes GitHub Actions workflows:
 
 - `CI` (`.github/workflows/ci.yml`):
-	- descarga JFlex + `java-cup-runtime`,
-	- genera lexer,
-	- compila,
-	- ejecuta smoke test con `ejemplo.txt`.
+	- downloads JFlex + `java-cup-runtime`,
+	- generates lexer,
+	- compiles sources,
+	- runs smoke test with `ejemplo.txt`.
 - `CD Release` (`.github/workflows/cd-release.yml`):
-	- se activa en tags `v*.*.*`,
-	- empaqueta artefactos,
-	- publica release en GitHub.
+	- triggers on tags `v*.*.*`,
+	- packages artifacts,
+	- publishes a GitHub Release.
 
-## Alcance actual
+## Current Scope
 
-Baseline funcional del analizador léxico, preparado para extender gramática, agregar tokens y conectar con fases posteriores (parser/semántica).
+Functional lexical analyzer baseline, ready to extend grammar rules, add new tokens, and connect with later phases (parsing/semantics).

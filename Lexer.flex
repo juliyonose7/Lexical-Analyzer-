@@ -1,9 +1,9 @@
 %%
 /*
- * Configuración global de JFlex:
- * - %line / %column habilita rastreo posicional para diagnósticos.
- * - %type Token indica que cada regla retorna un objeto de dominio Token.
- * - %state COMMENT define estado léxico para comentarios de bloque.
+ * Global JFlex configuration:
+ * - %line / %column enables position tracking for diagnostics.
+ * - %type Token declares that each rule returns a domain Token object.
+ * - %state COMMENT defines a lexical state for block comments.
  */
 %public
 %class Lexer
@@ -15,8 +15,8 @@
 %state COMMENT
 %{
     /*
-     * Factories de tokens para centralizar creación y normalizar posición.
-     * Se expone línea/columna en base 1 para consumo humano.
+        * Token factories to centralize creation and normalize position handling.
+        * Line/column are exposed as 1-based indexes for human-friendly output.
      */
     private Token token(TokenType type) {
         return new Token(type, yytext(), yyline + 1, yycolumn + 1);
@@ -27,7 +27,7 @@
     }
 %}
 
-/* Macros reutilizables: mejoran legibilidad y evitan duplicación de regex. */
+/* Reusable macros: improve readability and avoid regex duplication. */
 LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator}|[ \t\f]
 Digit = [0-9]
@@ -41,15 +41,15 @@ StringLiteral = \"({StringChar}|{EscapeSeq})*\"
 
 %%
 
-/* Estado inicial: reconoce tokens del lenguaje fuente. */
+/* Initial state: recognizes source-language tokens. */
 <YYINITIAL> {
-    {WhiteSpace}+         { /* Ignorar espacios en blanco */ }
+    {WhiteSpace}+         { /* Ignore whitespace */ }
 
-    /* Inicio de comentarios: transición explícita entre estados léxicos. */
+    /* Comment start: explicit transition between lexical states. */
     "/*"                 { yybegin(COMMENT); }
-    "//"[^\r\n]*        { /* Ignorar comentario de línea */ }
+    "//"[^\r\n]*        { /* Ignore line comment */ }
 
-    /* Palabras reservadas (prioridad antes de Identifier). */
+    /* Reserved words (priority before Identifier). */
     "if"                 { return token(TokenType.KW_IF); }
     "else"               { return token(TokenType.KW_ELSE); }
     "while"              { return token(TokenType.KW_WHILE); }
@@ -65,13 +65,13 @@ StringLiteral = \"({StringChar}|{EscapeSeq})*\"
     "true"               { return token(TokenType.KW_TRUE); }
     "false"              { return token(TokenType.KW_FALSE); }
 
-    /* Literales e identificadores. */
+    /* Literals and identifiers. */
     {Real}                { return token(TokenType.REAL_LITERAL); }
     {Integer}             { return token(TokenType.INT_LITERAL); }
     {StringLiteral}       { return token(TokenType.STRING_LITERAL); }
     {Identifier}          { return token(TokenType.ID); }
 
-    /* Operadores compuestos (deben evaluarse antes que los simples). */
+    /* Composite operators (must be evaluated before simple ones). */
     "++"                 { return token(TokenType.INC); }
     "--"                 { return token(TokenType.DEC); }
     "=="                 { return token(TokenType.EQ); }
@@ -81,7 +81,7 @@ StringLiteral = \"({StringChar}|{EscapeSeq})*\"
     "&&"                 { return token(TokenType.AND); }
     "||"                 { return token(TokenType.OR); }
 
-    /* Operadores simples. */
+    /* Simple operators. */
     "="                  { return token(TokenType.ASSIGN); }
     "+"                  { return token(TokenType.PLUS); }
     "-"                  { return token(TokenType.MINUS); }
@@ -92,7 +92,7 @@ StringLiteral = \"({StringChar}|{EscapeSeq})*\"
     "<"                  { return token(TokenType.LT); }
     ">"                  { return token(TokenType.GT); }
 
-    /* Delimitadores y separadores. */
+    /* Delimiters and separators. */
     "("                  { return token(TokenType.LPAREN); }
     ")"                  { return token(TokenType.RPAREN); }
     "{"                  { return token(TokenType.LBRACE); }
@@ -103,19 +103,19 @@ StringLiteral = \"({StringChar}|{EscapeSeq})*\"
     ","                  { return token(TokenType.COMMA); }
     "."                  { return token(TokenType.DOT); }
 
-    /* Token de fin de archivo para cerrar el flujo de análisis. */
+    /* End-of-file token to close the analysis flow. */
     <<EOF>>               { return token(TokenType.EOF, "<EOF>"); }
 
-    /* Fallback: cualquier símbolo no reconocido se reporta como error léxico. */
+    /* Fallback: any unrecognized symbol is reported as a lexical error. */
     [^]                   { return token(TokenType.ERROR); }
 }
 
 /*
- * Estado COMMENT: consume todo hasta cierre de bloque.
- * Si llega EOF sin cierre, se retorna ERROR explícito.
+ * COMMENT state: consumes input until block closing delimiter.
+ * If EOF is reached without closure, an explicit ERROR token is returned.
  */
 <COMMENT> {
     "*/"                 { yybegin(YYINITIAL); }
     <<EOF>>               { return token(TokenType.ERROR, "Comentario no cerrado"); }
-    [^]                   { /* Consumir todo dentro del comentario */ }
+    [^]                   { /* Consume all content inside comment */ }
 }

@@ -30,12 +30,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Interfaz gráfica para ejecutar análisis léxico de forma interactiva.
+ * Graphical interface to run lexical analysis interactively.
  *
- * <p>La vista está dividida en dos áreas principales:
+ * <p>The view is split into two main areas:
  * <ul>
- *   <li>Editor de entrada (fuente a analizar).</li>
- *   <li>Tabla de salida (stream de tokens generado por {@link Lexer}).</li>
+ *   <li>Input editor (source text to analyze).</li>
+ *   <li>Output table (token stream produced by {@link Lexer}).</li>
  * </ul>
  */
 public class LexerGUI extends JFrame {
@@ -44,7 +44,7 @@ public class LexerGUI extends JFrame {
     private final DefaultTableModel tableModel;
 
     /**
-     * Construye y configura todos los componentes visuales de la ventana.
+        * Builds and configures all visual components of the window.
      */
     public LexerGUI() {
         setTitle("Analizador Léxico - Interfaz Aero Azul/Blanco");
@@ -136,10 +136,10 @@ public class LexerGUI extends JFrame {
     }
 
     /**
-     * Ejecuta el análisis léxico sobre el contenido actual del editor.
+        * Runs lexical analysis on the current editor content.
      *
-     * <p>El recorrido termina en {@link TokenType#EOF} o {@link TokenType#ERROR}.
-     * El resultado se materializa fila a fila en la tabla de salida.
+        * <p>Scanning stops at {@link TokenType#EOF} or {@link TokenType#ERROR}.
+        * Output is materialized row-by-row in the token table.
      */
     private void analyzeInput() {
         tableModel.setRowCount(0);
@@ -174,9 +174,9 @@ public class LexerGUI extends JFrame {
     }
 
     /**
-     * Permite cargar un archivo de texto local al editor de entrada.
+        * Loads a local text file into the input editor.
      *
-     * <p>La lectura se fuerza en UTF-8 para evitar ambigüedad de codificación.
+        * <p>Reading is forced to UTF-8 to avoid encoding ambiguity.
      */
     private void openTxtFile() {
         JFileChooser chooser = new JFileChooser();
@@ -204,7 +204,7 @@ public class LexerGUI extends JFrame {
     }
 
     /**
-     * Inicializa el Look & Feel nativo e inicia la GUI en el EDT de Swing.
+        * Initializes native Look & Feel and starts the GUI on Swing's EDT.
      */
     public static void launch() {
         try {
@@ -219,11 +219,11 @@ public class LexerGUI extends JFrame {
     }
 
     /**
-     * Panel de cabecera con renderizado custom (gradiente + borde redondeado).
+     * Header panel with custom rendering (gradient + rounded border).
      */
     private static class AeroHeaderPanel extends JPanel {
         /**
-         * Renderiza la decoración visual de la cabecera.
+         * Renders the visual decoration of the header.
          */
         @Override
         protected void paintComponent(Graphics g) {

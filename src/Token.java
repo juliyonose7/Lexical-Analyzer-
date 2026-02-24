@@ -1,11 +1,11 @@
 /**
- * Representa una unidad léxica producida por el escáner.
+ * Represents a lexical unit produced by the scanner.
  *
- * <p>El token encapsula:
+ * <p>The token encapsulates:
  * <ul>
- *   <li>tipo sintáctico ({@link TokenType}),</li>
- *   <li>lexema exacto reconocido,</li>
- *   <li>posición de origen en términos de línea y columna (1-based).</li>
+ *   <li>syntactic type ({@link TokenType}),</li>
+ *   <li>exact recognized lexeme,</li>
+ *   <li>source position in terms of line and column (1-based).</li>
  * </ul>
  */
 public class Token {
@@ -15,12 +15,12 @@ public class Token {
     private final int column;
 
     /**
-     * Construye un token inmutable.
+        * Builds an immutable token.
      *
-     * @param type tipo de token reconocido.
-     * @param lexeme representación textual capturada del input.
-     * @param line línea de origen (base 1).
-     * @param column columna de origen (base 1).
+        * @param type recognized token type.
+        * @param lexeme textual representation captured from input.
+        * @param line source line (1-based).
+        * @param column source column (1-based).
      */
     public Token(TokenType type, String lexeme, int line, int column) {
         this.type = type;
@@ -29,22 +29,22 @@ public class Token {
         this.column = column;
     }
 
-    /** @return tipo léxico del token. */
+    /** @return lexical token type. */
     public TokenType getType() {
         return type;
     }
 
-    /** @return lexema original reconocido. */
+    /** @return original recognized lexeme. */
     public String getLexeme() {
         return lexeme;
     }
 
-    /** @return línea de origen del token (base 1). */
+    /** @return token source line (1-based). */
     public int getLine() {
         return line;
     }
 
-    /** @return columna de origen del token (base 1). */
+    /** @return token source column (1-based). */
     public int getColumn() {
         return column;
     }

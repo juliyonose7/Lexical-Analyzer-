@@ -1,11 +1,11 @@
 /**
- * Taxonomía de tokens reconocidos por el analizador léxico.
+ * Taxonomy of tokens recognized by the lexical analyzer.
  *
- * <p>La agrupación de constantes mantiene trazabilidad entre reglas de {@code Lexer.flex}
- * y semántica del token en fases posteriores (parser, validación, diagnóstico).
+ * <p>Grouping constants this way preserves traceability between {@code Lexer.flex}
+ * rules and token semantics in later phases (parsing, validation, diagnostics).
  */
 public enum TokenType {
-    // Palabras reservadas del lenguaje objetivo.
+    // Reserved keywords of the target language.
     KW_IF,
     KW_ELSE,
     KW_WHILE,
@@ -21,13 +21,13 @@ public enum TokenType {
     KW_TRUE,
     KW_FALSE,
 
-    // Identificadores y literales.
+    // Identifiers and literals.
     ID,
     INT_LITERAL,
     REAL_LITERAL,
     STRING_LITERAL,
 
-    // Operadores aritméticos, relacionales y lógicos.
+    // Arithmetic, relational, and logical operators.
     PLUS,
     MINUS,
     STAR,
@@ -46,7 +46,7 @@ public enum TokenType {
     INC,
     DEC,
 
-    // Delimitadores y separadores.
+    // Delimiters and separators.
     LPAREN,
     RPAREN,
     LBRACE,
@@ -57,7 +57,7 @@ public enum TokenType {
     SEMICOLON,
     DOT,
 
-    // Tokens de control de flujo léxico.
+    // Lexical control-flow tokens.
     ERROR,
     EOF
 }
