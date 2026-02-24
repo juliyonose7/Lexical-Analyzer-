@@ -23,10 +23,11 @@ jobs:
       - name: Download JFlex
         run: |
           curl -sSL -o jflex.jar https://repo1.maven.org/maven2/de/jflex/jflex/1.9.1/jflex-1.9.1.jar
+          curl -sSL -o java-cup-runtime.jar https://repo1.maven.org/maven2/com/github/vbmacher/java-cup-runtime/11b-20160615/java-cup-runtime-11b-20160615.jar
 
       - name: Generate lexer
         run: |
-          java -jar jflex.jar -d ./src ./Lexer.flex
+          java -cp "jflex.jar:java-cup-runtime.jar" jflex.Main -d ./src ./Lexer.flex
 
       - name: Compile Java sources
         run: |
